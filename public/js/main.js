@@ -11,3 +11,15 @@ campo.on("input", function() {
     var qtdCaracteres = conteudo.length;
     $("#contador-caracteres").text(qtdCaracteres);
 });
+
+var tempoRestante = $("#tempo-digitacao").text();
+campo.one("focus", function(){
+    var contador = setInterval(function(){
+        tempoRestante--;
+        $("#tempo-digitacao").text(tempoRestante);
+        if(tempoRestante < 1){
+            campo.attr("disabled", true);
+            clearInterval(contador)
+        }
+    }, 1000)
+});
