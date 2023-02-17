@@ -1,19 +1,34 @@
-var frase = $(".frase").text();
-var numPalavras = frase.split(" ").length;
-var tamanhoFrase = $("#tamanho-frase");
-tamanhoFrase.text(numPalavras);
-
+var tempoInicial = $("#tempo-digitacao").text();
 var campo = $(".campo-digitacao");
-campo.on("input", function() {
-    var conteudo = campo.val();
-    var qtdPalavras = conteudo.split(/\S+/).length - 1;
-    $("#contador-palavras").text(qtdPalavras);
-    var qtdCaracteres = conteudo.length;
-    $("#contador-caracteres").text(qtdCaracteres);
+
+$(document).ready(function(){
+    atualizaTamanhoFrase();
+    inicializaContadores();
+    inicialiaCronometro();
+    $("#botao-reiniciar").on("click", reiniciaJogo());
 });
 
-var tempoRestante = $("#tempo-digitacao").text();
-campo.one("focus", function(){
+function atualizaTamanhoFrase(){
+    var frase = $(".frase").text();
+    var numPalavras = frase.split(" ").length;
+    var tamanhoFrase = $("#tamanho-frase");
+    tamanhoFrase.text(numPalavras);
+};
+
+function inicializaContadores(){
+    campo.on("input", function() {
+        var conteudo = campo.val();
+        var qtdPalavras = conteudo.split(/\S+/).length - 1;
+        $("#contador-palavras").text(qtdPalavras);
+        var qtdCaracteres = conteudo.length;
+        $("#contador-caracteres").text(qtdCaracteres);
+    });
+    
+};
+
+function inicialiaCronometro(){
+    var tempoRestante = $("#tempo-digitacao").text();
+    campo.one("focus", function(){
     var contador = setInterval(function(){
         tempoRestante--;
         $("#tempo-digitacao").text(tempoRestante);
@@ -22,4 +37,24 @@ campo.one("focus", function(){
             clearInterval(contador)
         }
     }, 1000)
-});
+    });
+};
+
+
+function reiniciaJogo(){
+    campo.attr("disabled", false);
+    campo.val("");
+    $("#contador-palavras").text("0");
+    $("#contador-caracteres").text("0");
+    $("#tempo-digitacao").text(tempoInicial);
+    inicialiaCronometro();
+}
+
+$("#botao-reiniciar").on("click", reiniciaJogo);
+
+
+///////// Sintaxe opcional click:
+
+// $("#botao-reiniciar").click(function(){
+//     console.log("Botao clicadooooo!");
+// });
