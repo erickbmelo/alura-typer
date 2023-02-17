@@ -34,7 +34,8 @@ function inicialiaCronometro(){
         $("#tempo-digitacao").text(tempoRestante);
         if(tempoRestante < 1){
             campo.attr("disabled", true);
-            clearInterval(contador)
+            clearInterval(contador);
+            campo.addClass("campo-desativado");
         }
     }, 1000)
     });
