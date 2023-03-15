@@ -1,13 +1,17 @@
 $("#botao-frase").click(fraseAleatoria);
 
 function fraseAleatoria() {
-    $.get("http://localhost:3000/frases-url-errada-teste", trocaFraseAleatoria)
+    $("#spinner").show();
+    $.get("http://localhost:3000/frases", trocaFraseAleatoria)
     .fail(function(){
         $("#erro").show();
         setTimeout(function(){
             $("#erro").toggle();
         }, 1500);
-    });
+    })
+    .always(function(){
+        $("#spinner").toggle();
+    })
 }
 
 function trocaFraseAleatoria(data) {
